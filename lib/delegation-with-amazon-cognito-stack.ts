@@ -45,28 +45,28 @@ export class DelegationWithAmazonCognitoStack extends Stack {
       advancedSecurityMode: "ENFORCED",
     };
 
-    // Add resource server
-    const resourceServer = userPool.addResourceServer("ResourceServer", {
-      identifier: "resources",
-      scopes: [
-        {
-          scopeName: "booking-service",
-          scopeDescription: "Read booking service",
-        },
-        {
-          scopeName: "review-service",
-          scopeDescription: "Read review service",
-        },
-      ],
-    });
-
     // Store user pool id in SSM
     new StringParameter(this, "UserPoolIdParameter", {
       parameterName: "/delegation/userpool/id",
       stringValue: userPool.userPoolId,
     });
 
-    // Defined pre token generation lambda
+    // Add resource server
+    const resourceServer = userPool.addResourceServer("ResourceServer", {
+      identifier: "resources",
+      scopes: [
+        {
+          scopeName: "booking-service",
+          scopeDescription: "Access booking service",
+        },
+        {
+          scopeName: "review-service",
+          scopeDescription: "Access review service",
+        },
+      ],
+    });
+
+    // Define pre token generation lambda
     const preTokenGeneration = new NodejsFunction(this, "PreTokenGeneration", {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
@@ -115,7 +115,7 @@ export class DelegationWithAmazonCognitoStack extends Stack {
       defineAuthChallenge
     );
 
-    // Verify auth challenge response lambda
+    // Define verify auth challenge response lambda
     const verifyAuthChallengeResponse = new NodejsFunction(
       this,
       "VerifyAuthChallengeResponse",

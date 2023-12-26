@@ -1,14 +1,5 @@
-# Welcome to your CDK TypeScript project
+# Delegation with Amazon Cognito
 
-This is a blank project for CDK development with TypeScript.
+The Delegation or On-Behalf-Of (OBO) flow is used when a service, often an API, needs to perform an action, often calling another API, on behalf of the end-user. This is to ensure that the end user has the permissions required to perform the action in the target service. The flow is not a part of the original OAuth 2.0 specification (RFC 6749), it is an extension introduced by Microsoft.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+This solution mimics this flow using Amazon Cognito, a complete blog post explaining how the solutuon works can be found [here](https://www.ganhammar.se/posts/delegation-tokens-with-cognito).
